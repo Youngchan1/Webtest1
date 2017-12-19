@@ -36,6 +36,7 @@ angular
 							 *---------------------------------------------------------------*/
 
 							var self = this;
+							self.rang;
 							$scope.buttons = [ {
 								'name' : 'Yellow25',
 								'value' : 'assets/img/button/Yellow25.png'
@@ -293,9 +294,7 @@ angular
 												.split('andon')[1];
 
 										$scope.crtEqpt.cnm = 'andon'
-												+ leadingZeros(
-														parseInt(latestNum) + 1,
-														3);
+												+ leadingZeros(parseInt(latestNum) + 1,3);
 									}
 
 									var tmp = {}, res = [];
@@ -312,20 +311,26 @@ angular
 									// console.log(self.eqptList);
 
 								} else if (self.eqptParamVo.eqptType == "COUNT") {
-									
-									var classList = $filter('orderBy')(self.eqptList, 'eqptCnm');
+
+									var classList = $filter('orderBy')(
+											self.eqptList, 'eqptCnm');
 									if (classList.length == 0) {
 										$scope.crtEqpt.cnm = 'count001';
 									} else {
-										var latestNum = classList[classList.length - 1].eqptCnm.split('count')[1];
+										var latestNum = classList[classList.length - 1].eqptCnm
+												.split('count')[1];
 
-										$scope.crtEqpt.cnm = 'count'+ leadingZeros(parseInt(latestNum) + 1,3);
+										$scope.crtEqpt.cnm = 'count'
+												+ leadingZeros(
+														parseInt(latestNum) + 1,
+														3);
 									}
-									//차집합 countList - 이미 생성된 eqptList
+									// 차집합 countList - 이미 생성된 eqptList
 									var tmp = {}, res = [];
 									for (var i = 0; i < self.countList.length; i++)
 										tmp[self.countList[i].plcId] = 1;
-									if (self.eqptList.length!=0) {//eqptList가 있을경우
+									if (self.eqptList.length != 0) {// eqptList가
+										// 있을경우
 										for (var i = 0; i < self.eqptList.length; i++) {
 											if (tmp[self.eqptList[i].id])
 												delete tmp[self.eqptList[i].id];
@@ -333,12 +338,12 @@ angular
 										for ( var k in tmp)
 											res.push(k);
 										console.log(res);
-										
-									}else{
-										
+
+									} else {
+
 										for (var i = 0; i < self.countList.length; i++) {
 											res.push(self.countList[i].plcId);
-											
+
 										}
 									}
 									self.countLst = res;
@@ -369,17 +374,14 @@ angular
 								var type = $scope.crtEqpt.type;
 								var id = $scope.crtEqpt.id;
 								var factId = self.eqptParamVo.factId
-
+								var data= {};
 								// console.log(cnm,type,id,factId)
 								if (cnm != null && cnm != "" && type != null
 										&& type != "" && id != null && id != "") {
-									var detect = $filter('filter')(
-											self.eqptList, {
-												id : id,
-												status : '!delete'
+									var detect = $filter('filter')(self.eqptList, {id : id,status : '!delete'
 											});
 									if (type == 'PLC') {
-										var data = {
+										 data[0] = {
 											eqptCnm : cnm,
 											id : id,
 											eqptType : type,
@@ -397,7 +399,45 @@ angular
 											stsImg3 : 'assets/img/button/Blue25.png',
 											stsImg4 : 'assets/img/button/Red25.png'
 										};
-
+										if(self.rang != 0 || self.rang == undefined || self.ranf != null){
+											var lastNum = cnm.split('plc')[1];
+											cnm = 'plc' + leadingZeros(parseInt(lastNum) + 1,3);
+											var lastNum1 = id.split('MPLC_')[1];
+											id = 'MPLC_' + leadingZeros(parseInt(lastNum1) + 1,3);
+											for(var i = 1;i < self.rang;i++){
+												for(var j = 0;j < self.eqptList.length;j++){
+													
+												if(self.eqptList[j].id == id){
+													lastNum = cnm.split('plc')[1];
+													cnm = 'plc' + leadingZeros(parseInt(lastNum) - 1,3);
+													lastNum1 = id.split('MPLC_')[1];
+													id = 'MPLC_' + leadingZeros(parseInt(lastNum1) + 1,3);
+													}
+												}
+													data[i] = {
+															eqptCnm : cnm,
+															id : id,
+															eqptType : type,
+															factId : factId,
+															desc : null,
+															cssZindex : 'auto',
+															cssWidth : '25px',
+															cssHeight : '25px',
+															cssTop : '230px',
+															cssLeft : '550px',
+															status : 'insert',
+															stsImg0 : 'assets/img/button/color25.png',
+															stsImg1 : 'assets/img/button/Green25.png',
+															stsImg2 : 'assets/img/button/White25.png',
+															stsImg3 : 'assets/img/button/Blue25.png',
+															stsImg4 : 'assets/img/button/Red25.png'
+														};
+													lastNum = cnm.split('plc')[1];
+													cnm = 'plc' + leadingZeros(parseInt(lastNum) - 1,3);
+													lastNum1 = id.split('MPLC_')[1];
+													id = 'MPLC_' + leadingZeros(parseInt(lastNum1) + 1,3);
+												}
+											}
 									} else if (type == 'ANDON') {
 										// console.log('andon')
 										var data = {
@@ -446,7 +486,14 @@ angular
 										}
 									}
 									if (check == true) {
-										self.eqptList.push(data);
+										if(self.rang == undefined){
+											self.eqptList.push(data[0]);
+										}else{
+											for(var i = 0;i<self.rang;i++){
+
+												self.eqptList.push(data[i]);
+											}
+										}
 										// console.log(data);
 									} else {
 										alert("PLC ID를 확인하세요");
@@ -504,9 +551,9 @@ angular
 												function(data) {
 													// console.log(data)
 													self.eqptList = data; // fmbEqptVo가
-																			// 담긴
-																			// 리스트
-																			// 형태리턴
+													// 담긴
+													// 리스트
+													// 형태리턴
 													for (var i = 0; i < self.eqptList.length; i++) {
 														self.eqptList[i]['status'] = "keep";
 													}
@@ -662,10 +709,10 @@ angular
 
 							function changeType() {
 								if (self.eqptParamVo.eqptType == "PLC") { // 추후
-																			// type별
-																			// 다른
-																			// 로직
-																			// 구성해야함.
+									// type별
+									// 다른
+									// 로직
+									// 구성해야함.
 									getEqptList();
 									getPlcList();
 								} else if (self.eqptParamVo.eqptType == "ANDON") {

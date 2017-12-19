@@ -24,9 +24,9 @@
 		<property name="password" value="dsinfo!12" /> -->
 		
 		<!-- 대합공장용 센트랄서버 접속 -->
-  	   	<property name="url" value="jdbc:sqlserver://10.10.170.7;databaseName=CMSDH" />
- 		<property name="username" value="opcdb" />
-		<property name="password" value="opccms#50" />
+  	   	<property name="url" value="jdbc:sqlserver://localhost:1433;databaseName=KYCDB" />
+ 		<property name="username" value="sa" />
+		<property name="password" value="dudcksdlelqlek" />
 	</bean>
 	
 	

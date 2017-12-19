@@ -90,7 +90,7 @@
 					<md-tab id="tab1">
 						<md-tab-label>리스트</md-tab-label>
 						<md-button class="md-raised" ng-click="vm.deleteDiv($index)">Button</md-button>
-						<md-tab-body>F
+						<md-tab-body>
 				      		<md-list-item class="md-2-line" ng-class=" {'list_selected' : vm.selected === $index}" ng-repeat="eqpts in vm.eqptList" ng-click="vm.setSelectedData($index)" ng-hide="eqpts.status == 'delete'">
 					      		<div class="md-list-item-text" layout="column">
 					      			<h3>{{ eqpts.id }}</h3>
@@ -289,6 +289,9 @@
        					{{plc}}
      				</md-option>
    				</md-select>
+   				    <md-input-container md-no-float="" >
+     					 <input ng-model="vm.rang" type="text">
+   					 </md-input-container>
    			</md-input-container>
    			
    			<!-- <md-input-container ng-switch-when="SPC">
