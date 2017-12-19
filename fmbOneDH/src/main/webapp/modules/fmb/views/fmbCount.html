@@ -1,0 +1,147 @@
+<!-- 
+/** 
+ * @Class Name : fmbCount.html
+ * @Description : 설비실적현황
+ * @Modification Information  
+ * @ 날짜		   이름		수정내용		
+ * @ ----------  ---------  -------------------------------
+ * @ 2017.12	   정유경		최초생성
+ * 
+ *
+ 
+ * css: assets/css/fmb.css
+ * controller : fmbCountCtrl.js
+ *
+ */
+ -->
+ <style type="text/css">
+    #warning-message { display: none; }
+    @media only screen and (orientation:portrait){
+        #wrapper { display:none; }
+        #warning-message { display:block; }
+    }
+    @media only screen and (orientation:landscape){
+        #warning-message { display:none; }
+    }
+</style>
+ 
+<!-- ngview 내부 페이지 -->
+<div test-ctrl class='bc-screen' style="margin:0">
+	<script src="modules/cmm/services/cmmFactSrvc.js"></script>
+	
+<!-- ngview 내부 header -->
+<bc-form-header title="생산실적 모니터링" is-mobile="isMobile" on-swipe-right="onSwipeRight()"  style="display:flex; align-items:center; flex-wrap: wrap;">
+
+<bc-legend>
+<div class="col-lg-7 col-md-7 col-sm-6 col-xs-11 lineInfo">가동 : {{vm.count1}} &nbsp; &nbsp;
+비가동 : {{vm.count0}} &nbsp; &nbsp;
+대기 : {{vm.count2}} &nbsp; &nbsp;
+알람 : {{vm.count4}}
+</div>
+<div class="col-lg-5 col-md-5 col-sm-6 col-xs-9 legend" style="background:url('assets/img/system/legend5.png'); 
+	background-size:cover; background-repeat: no-repeat; background-position: 70px; height:80px;">
+</div>
+</bc-legend>
+</bc-form-header>
+
+<!-- ngview 내부 body -->
+<bc-form-body class='col-md-12 col-sm-12 col-xs-12' style="padding:0;">
+	<bc-back-panel2>
+	<!--설비클래스 삽입 시작-->
+  	<div back-panel-ctrl ng-switch on="vm.eqptParamVo.factId" style="position:absolute;">
+	   	<img ng-switch-when="A" class='col-md-12 col-sm-12 col-xs-12' ng-src={{eachBg.A}} style="padding:0"/>
+	   	<img ng-switch-when="B" class='col-md-12 col-sm-12 col-xs-12' ng-src={{eachBg.B}} style="padding:0"/>
+	   	<img ng-switch-when="C" class='col-md-12 col-sm-12 col-xs-12' ng-src={{eachBg.C}} style="padding:0"/>
+	   	<img ng-switch-when="Comb" class='col-md-12 col-sm-12 col-xs-12' ng-src={{eachBg.Comb}} style="padding:0"/>
+    </div> 
+    <!-- plc -->
+	<!-- <div class="EQPT col-md-12 col-sm-12 col-xs-12" style="padding:0">	
+		 <ul>
+			설비이미지 repeat
+			<li u-ctrl data="eqpt" ng-repeat="eqpt in vm.eqptList track by $index">
+			 <div class="{{eqpt.eqptCnm}}" type="{{eqpt.eqptType}}" plc="{{eqpt.plcId}}"
+				  style="top:{{eqpt.cssTop}}; left: {{eqpt.cssLeft}}; 
+				  		 width:{{eqpt.cssWidth}}; height:{{eqpt.cssHeight}}; 
+				  		 z-index:{{eqpt.cssZindex}};">		
+				  <div class="{{eqpt.eqptCnm}}" type="{{eqpt.eqptType}}" plc="{{eqpt.id}}"
+				  ng-style="{'top':eqpt.cssTop, 'left': eqpt.cssLeft, 'width':eqpt.cssWidth, 'height':eqpt.cssHeight,'z-index':eqpt.cssZindex}">
+				  		
+	              <div ng-switch on="vm.stsData[$index].eqptSts">  
+	               <img ng-switch-when="0" ng-mouseover='hoverIn($index)' ng-mouseleave='hoverOut($index)' class="obj" ng-src="{{eqpt.stsImg0}}" align="center" ng-style="{'width':eqpt.cssWidth, 'height':eqpt.cssHeight, 'position':'absolute'}" ng-click="showAdvanced(eqpt.id, $event)">
+	               <img ng-switch-when="1" ng-mouseover='hoverIn($index)' ng-mouseleave='hoverOut($index)' class="obj" ng-src="{{eqpt.stsImg1}}" align="center" ng-style="{'width':eqpt.cssWidth, 'height':eqpt.cssHeight, 'position':'absolute'}" ng-click="showAdvanced(eqpt.id, $event)">
+	               <img ng-switch-when="2" ng-mouseover='hoverIn($index)' ng-mouseleave='hoverOut($index)' class="obj" ng-src="{{eqpt.stsImg2}}" align="center" ng-style="{'width':eqpt.cssWidth, 'height':eqpt.cssHeight, 'position':'absolute'}" ng-click="showAdvanced(eqpt.id, $event)">
+	               <img ng-switch-when="3" ng-mouseover='hoverIn($index)' ng-mouseleave='hoverOut($index)' class="obj" ng-src="{{eqpt.stsImg3}}" align="center" ng-style="{'width':eqpt.cssWidth, 'height':eqpt.cssHeight, 'position':'absolute'}" ng-click="showAdvanced(eqpt.id, $event)">
+	               <img ng-switch-when="4" ng-mouseover='hoverIn($index)' ng-mouseleave='hoverOut($index)' class="obj" ng-src="{{eqpt.stsImg4}}" align="center" ng-style="{'width':eqpt.cssWidth, 'height':eqpt.cssHeight, 'position':'absolute'}" ng-click="showAdvanced(eqpt.id, $event)">
+	               <p class="hintInfo" ng-if="hover[$index]"><b>{{eqpt.id}}</b><br>LINE : {{vm.stsData[$index].lineCd}}<br>COUNT : {{vm.stsData[$index].tcount}}</p>
+	              </div> 
+	               ng-show="hover[$index]
+				</div>
+			</li>
+		</ul>
+ 	</div> -->
+    <!-- 생산실적-->
+	<div class="EQPT col-md-12 col-sm-12 col-xs-12" style="padding:0">	
+		 <ul>
+			<!-- 설비이미지 repeat -->
+			<li u-ctrl data="count" ng-repeat="count in vm.countEqptList track by $index">
+				  <div class="{{count.eqptCnm}}" type="{{count.eqptType}}" plc="{{count.id}}"
+				  ng-style="{'top':count.cssTop, 'left': count.cssLeft, 'width':count.cssWidth, 'height':count.cssHeight,'z-index':count.cssZindex}">
+	              <div ng-switch on="vm.stsData[$index].eqptSts" style="display:flex; justify-content:center;">  
+	               <div ng-style="{'width':eqpt.cssWidth, 'height':eqpt.cssHeight}">
+	                <div ng-switch on="vm.stsData[$index].eqptSts">  
+	           	     <p ng-switch-when="0" ng-mouseover='hoverIn($index)' ng-mouseleave='hoverOut($index)' style="color:#FFC000; font-size:19px; font-weight:bold; background-color:white;">{{vm.countStsData[$index].dcount + vm.countStsData[$index].ncount|number:0}}</p>
+	           	     <p ng-switch-when="1" ng-mouseover='hoverIn($index)' ng-mouseleave='hoverOut($index)' style="color:#FFC000; font-size:19px; font-weight:bold; background-color:green;">{{vm.countStsData[$index].dcount + vm.countStsData[$index].ncount|number:0}}</p>
+	           	    <p ng-switch-when="2" ng-mouseover='hoverIn($index)' ng-mouseleave='hoverOut($index)' style="color:#FFC000; font-size:19px; font-weight:bold; background-color:yellow;">{{vm.countStsData[$index].dcount + vm.countStsData[$index].ncount|number:0}}</p>
+	           	    <p ng-switch-when="3" ng-mouseover='hoverIn($index)' ng-mouseleave='hoverOut($index)' style="color:#FFC000; font-size:19px; font-weight:bold; background-color:white;">{{vm.countStsData[$index].dcount + vm.countStsData[$index].ncount|number:0}}</p>
+	           	    <p ng-switch-when="4" ng-mouseover='hoverIn($index)' ng-mouseleave='hoverOut($index)' style="color:#FFC000; font-size:19px; font-weight:bold; background-color:red;">{{vm.countStsData[$index].dcount + vm.countStsData[$index].ncount|number:0}}</p>
+	           	    
+	           	     </div>
+	              </div> 
+	           	     </div>
+	           	     <p class="hintInfo" ng-if="hover[$index]"><b>{{count.plcId}}</b><br>LINE : {{vm.stsData[$index].lineCd}}<br>COUNT : {{vm.stsData[$index].tcount}}</p>
+				</div>
+			</li>
+		</ul>
+ 	</div>
+ 	<!-- andon -->
+ 	<div class="EQPT col-md-12 col-sm-12 col-xs-12" style="padding:0">	
+		 <ul>
+			<!-- 설비이미지 repeat -->
+			<li u-ctrl data="andon" ng-repeat="andon in vm.andonEqptList track by $index">
+			 <!-- <div class="{{eqpt.eqptCnm}}" type="{{eqpt.eqptType}}" plc="{{eqpt.plcId}}"
+				  style="top:{{eqpt.cssTop}}; left: {{eqpt.cssLeft}}; 
+				  		 width:{{eqpt.cssWidth}}; height:{{eqpt.cssHeight}}; 
+				  		 z-index:{{eqpt.cssZindex}};"> -->
+				  <div class="{{andon.eqptCnm}}" type="{{andon.eqptType}}" plc="{{andon.id}}"
+				  ng-style="{'top':andon.cssTop, 'left': andon.cssLeft, 'width':andon.cssWidth, 'height':andon.cssHeight,'z-index':andon.cssZindex}">
+				  <!-- test -->
+				  <!-- 자재결품 --><!-- Q -->
+				  <span ng-switch on="vm.andonStsData[$index].qcmBadSts">
+			 	  <img ng-switch-when="0" class="andonbtn" ng-src="{{andon.stsImg0}}">
+			 	  <img ng-switch-when="1" class="andonbtn" ng-src="{{andon.stsImg1}}">
+			 	  <img ng-switch-default class="andonbtn" src="assets/img/button/colorQ.png">
+			 	  </span>
+			 	  <!-- 품질이상 --><!-- S -->
+			 	  <span ng-switch on="vm.andonStsData[$index].matMissSts">  
+			 	  <img ng-switch-when="0" class="andonbtn" ng-src="{{andon.stsImg2}}">
+			 	  <img ng-switch-when="1" class="andonbtn" ng-src="{{andon.stsImg3}}">
+			 	  <img ng-switch-default class="andonbtn" src="assets/img/button/colorS.png">
+			 	  </span>
+			 	  <!-- 품목교체 --><!-- C -->
+			 	  <span ng-switch on="vm.andonStsData[$index].itemChaSts">  
+			 	  <img ng-switch-when="0" class="andonbtn" ng-src="{{andon.stsImg4}}">
+			 	  <img ng-switch-when="1" class="andonbtn" ng-src="{{andon.stsImg5}}">
+			 	  <img ng-switch-default class="andonbtn" src="assets/img/button/colorC.png">
+			 	  </span>
+
+				</div>
+			</li>
+		</ul>
+ 	</div>
+ 	
+	</div>
+	</bc-back-panel2>
+		<!--설비클래스 삽입 끝-->
+</bc-form-body>
+</div>
+
