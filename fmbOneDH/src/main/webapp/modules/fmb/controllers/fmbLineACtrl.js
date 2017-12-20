@@ -23,8 +23,9 @@ angular
      *-----------------------------------------*/
 	    
     var self = this;
+    console.log("왔써?")
     var workerList = CmmWorkerSrvc;
-    var fact_id = "A";
+    var fact_id = "001";
     var promise = null;
     var length = null;
     var dangle = null;
@@ -86,6 +87,7 @@ angular
 	    promise = CmmAjaxService.select("bas/selectFmbLine.do",  self.lineParamVo);
 	    promise.then(function(data){
 	    	self.lineList = data;
+	    	console.log(data)
 	    	length = self.lineList.length;
 	    	dangle = length % 7;
 	    	if (dangle != 0) 

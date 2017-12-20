@@ -46,7 +46,6 @@
 	 		<md-radio-button class="md-radio-button" value="Comb">전체</md-radio-button>
 			<md-radio-button class="md-radio-button" value="A" >A동</md-radio-button>
 			<md-radio-button class="md-radio-button" value="B" >B동</md-radio-button>
-			<md-radio-button class="md-radio-button" value="C"> C동 </md-radio-button>
 			<md-radio-button class="md-radio-button" value="D"> D동 </md-radio-button>
 		</md-radio-group>
 	</div>
@@ -115,7 +114,6 @@
           				<label>Class 명</label>
           				<input ng-model="vm.eqptList[vm.configSetting.index].eqptCnm" readonly>
         			</md-input-container>
-	   				
 	   				<md-input-container>
           				<label>Type</label>
           				<md-select ng-model="vm.eqptList[vm.configSetting.index].eqptType">
@@ -128,7 +126,7 @@
           				</md-select>
           			</md-input-container>
         			<div ng-switch on="vm.eqptParamVo.eqptType">
-		   				<md-input-container ng-switch-when="PLC" >
+		   				<md-input-container ng-switch-when="PLC">
 	          				<label>PLC_ID</label>
 	          				<md-select ng-model="vm.eqptList[vm.configSetting.index].id">
 	            				<md-option><em>None</em></md-option>
@@ -283,16 +281,23 @@
             
             <md-input-container ng-switch-when="PLC">
            		 <label>PLC_ID</label>
-           		   	<md-select ng-model="crtEqpt.id">
-     				<md-option><em>None</em></md-option>
-     				<md-option ng-repeat="plc in vm.plcLst" value="{{plc}}">
+           		   	<md-select id="myCheck1" ng-model="crtEqpt.id">
+     				<md-option ><em>None</em></md-option>
+     				<md-option  ng-repeat="plc in vm.plcLst" value="{{plc}}">
        					{{plc}}
      				</md-option>
    				</md-select>
-   				    <md-input-container md-no-float="" >
-     					 <input ng-model="vm.rang" type="text">
-   					 </md-input-container>
+   				
    			</md-input-container>
+   			<md-input-container id="myCheck" style="height: 30px;" ng-switch-when="PLC">
+				      <label>length</label>
+				      <input  style="height: 30px;" ng-model="vm.rang" type="number" step="1">{{vm.check}}
+				      </md-input-container>
+			</md-input-container>
+			<md-input-container style="height: 30px;" ng-switch-when="PLC">
+						<md-checkbox ng-model="vm.check" ng-change="vm.checkcb()">전체체크
+			</md-input-container>
+			</md-input-container>
    			
    			<!-- <md-input-container ng-switch-when="SPC">
            		 <label>SPC_ID</label>

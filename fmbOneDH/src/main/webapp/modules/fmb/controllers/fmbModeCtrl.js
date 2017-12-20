@@ -37,6 +37,12 @@ angular
 
 							var self = this;
 							self.rang;
+							self.check = false;
+							self.checkcb = function() {
+								 document.getElementById("myCheck").disabled = self.check;
+								 document.getElementById("myCheck1").disabled = self.check;
+								 self.rang = 43;
+							}
 							$scope.buttons = [ {
 								'name' : 'Yellow25',
 								'value' : 'assets/img/button/Yellow25.png'
@@ -98,7 +104,6 @@ angular
 								id : '',
 								eqptCnm : ''
 							};
-
 							// plc parameter
 							self.plcParamVo = {
 								plcId : '',
@@ -169,7 +174,15 @@ angular
 							 *  brbr - brbrbrbr~~
 							 *  brbr - brbrbr~~~~
 							 *---------------------------------------------------------------*/
-
+							
+							function sorteqptList() {
+								self.list =$filter('orderBy')(self.eqptList, 'id');
+								console.log("sorting")
+								console.log(self.list)
+								console.log(self.eqptList)
+								debugger
+								
+							}
 							self.changeFact = changeFact;
 							self.changeType = changeType;
 							self.deleteDiv = function(index) {
@@ -181,9 +194,7 @@ angular
 
 							self.toggleLeft = buildToggler('left');
 
-							$scope
-									.$watch(
-											'vm.eqptList',
+							$scope.$watch('vm.eqptList',
 											function(newVal, oldVal) {
 												if (newVal != null
 														&& oldVal != null
@@ -242,7 +253,8 @@ angular
 														3);
 									}
 
-									var tmp = {}, res = [];
+									var tmp = {};
+									self.res = [];
 									for (var i = 0; i < self.plcList.length; i++)
 										tmp[self.plcList[i].plcId] = 1;
 									for (var i = 0; i < self.eqptList.length; i++) {
@@ -250,9 +262,9 @@ angular
 											delete tmp[self.eqptList[i].id];
 									}
 									for ( var k in tmp)
-										res.push(k);
-									console.log(res);
-									self.plcLst = res;
+										self.res.push(k);
+									console.log(self.res);
+									self.plcLst = self.res;
 									console.log(self.plcLst);
 
 								} else if (self.eqptParamVo.eqptType == "SPC") {
@@ -404,12 +416,18 @@ angular
 											cnm = 'plc' + leadingZeros(parseInt(lastNum) + 1,3);
 											var lastNum1 = id.split('MPLC_')[1];
 											id = 'MPLC_' + leadingZeros(parseInt(lastNum1) + 1,3);
+											var testcount = 0;
+											debugger;
 											for(var i = 1;i < self.rang;i++){
+												
+												if(lastNum1 >= 43){
+													testcount++;
+													debugger;
+												}else{
 												for(var j = 0;j < self.eqptList.length;j++){
 													
+													
 												if(self.eqptList[j].id == id){
-													lastNum = cnm.split('plc')[1];
-													cnm = 'plc' + leadingZeros(parseInt(lastNum) - 1,3);
 													lastNum1 = id.split('MPLC_')[1];
 													id = 'MPLC_' + leadingZeros(parseInt(lastNum1) + 1,3);
 													}
@@ -432,12 +450,17 @@ angular
 															stsImg3 : 'assets/img/button/Blue25.png',
 															stsImg4 : 'assets/img/button/Red25.png'
 														};
+													debugger;
 													lastNum = cnm.split('plc')[1];
-													cnm = 'plc' + leadingZeros(parseInt(lastNum) - 1,3);
+													cnm = 'plc' + leadingZeros(parseInt(lastNum) + 1,3);
 													lastNum1 = id.split('MPLC_')[1];
 													id = 'MPLC_' + leadingZeros(parseInt(lastNum1) + 1,3);
+													debugger;
 												}
-											}
+												}
+											
+										}
+										 
 									} else if (type == 'ANDON') {
 										// console.log('andon')
 										var data = {
@@ -486,12 +509,12 @@ angular
 										}
 									}
 									if (check == true) {
-										if(self.rang == undefined){
+										if(self.rang == 1 || self.rang == undefined){
 											self.eqptList.push(data[0]);
 										}else{
-											for(var i = 0;i<self.rang;i++){
-
+											for(var i = 0;i<self.rang-testcount;i++){
 												self.eqptList.push(data[i]);
+												
 											}
 										}
 										// console.log(data);
@@ -506,33 +529,34 @@ angular
 
 							self.saveEqptData = function() {
 								for (var i = 0; i < self.eqptList.length; i++) {
-									if (self.eqptList[i].eqptType == "PLC") {
-										// console.log("plc저장")
-										var stsImg = self.eqptList[i].stsImg0
-										self.eqptList[i].stsImg1 = stsImg
-												.replace('color', 'Green');
-										self.eqptList[i].stsImg2 = stsImg
-												.replace('color', 'White');
-										self.eqptList[i].stsImg3 = stsImg
-												.replace('color', 'Blue');
-										self.eqptList[i].stsImg4 = stsImg
-												.replace('color', 'Red');
-									} else if (self.eqptList[i].eqptType == "ANDON") {
-										// console.log("andon저장")
-										var stsImg = self.eqptList[i].stsImg0
-										self.eqptList[i].stsImg1 = stsImg
-												.replace('Green', 'Red');
-										self.eqptList[i].stsImg2 = stsImg
-												.replace('Q', 'S');
-										self.eqptList[i].stsImg3 = stsImg
-												.replace('Green', 'Red')
-												.replace('Q', 'S');
-										self.eqptList[i].stsImg4 = stsImg
-												.replace('Q', 'C');
-										self.eqptList[i].stsImg5 = stsImg
-												.replace('Green', 'Red')
-												.replace('Q', 'C');
-									}
+										if (self.eqptList[i].eqptType == "PLC") {
+											// console.log("plc저장")
+											var stsImg = self.eqptList[i].stsImg0
+											self.eqptList[i].stsImg1 = stsImg
+													.replace('color', 'Green');
+											self.eqptList[i].stsImg2 = stsImg
+													.replace('color', 'White');
+											self.eqptList[i].stsImg3 = stsImg
+													.replace('color', 'Blue');
+											self.eqptList[i].stsImg4 = stsImg
+													.replace('color', 'Red');
+										} else if (self.eqptList[i].eqptType == "ANDON") {
+											// console.log("andon저장")
+											var stsImg = self.eqptList[i].stsImg0
+											self.eqptList[i].stsImg1 = stsImg
+													.replace('Green', 'Red');
+											self.eqptList[i].stsImg2 = stsImg
+													.replace('Q', 'S');
+											self.eqptList[i].stsImg3 = stsImg
+													.replace('Green', 'Red')
+													.replace('Q', 'S');
+											self.eqptList[i].stsImg4 = stsImg
+													.replace('Q', 'C');
+											self.eqptList[i].stsImg5 = stsImg
+													.replace('Green', 'Red')
+													.replace('Q', 'C');
+										}
+									
 								}
 								// console.log(self.eqptList);
 								var eqptPromise = CmmAjaxService.save(
@@ -546,9 +570,7 @@ angular
 										self.eqptParamVo);
 								// console.log(self.eqptParamVo)
 
-								eqptPromise
-										.then(
-												function(data) {
+								eqptPromise.then(function(data) {
 													// console.log(data)
 													self.eqptList = data; // fmbEqptVo가
 													// 담긴

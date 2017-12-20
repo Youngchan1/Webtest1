@@ -143,7 +143,7 @@ angular
 				  /*, { "pageNm": "FmbMonC", 		"pageNmKr": "설비 가동현황 C동"	}*/
 				  , { "pageNm": "FmbMonD", 		"pageNmKr": "설비 가동현황 D동"	}
 			      , { "pageNm": "FmbTotal", 	"pageNmKr": "생산자원 종합현황"	}
-			      , { "pageNm": "FmbCount", 	"pageNmKr": "설비 실적현황"		}
+			      , { "pageNm": "FmbMon2", 	"pageNmKr": "설비 실적현황"		}
 			      , { "pageNm": "FmbLineA", 	"pageNmKr": "LINE별 생산실적 A동"}
 			      , { "pageNm": "FmbLineB", 	"pageNmKr": "LINE별 생산실적 B동"}
 			      /*, { "pageNm": "FmbLineC", 	"pageNmKr": "LINE별 생산실적 C동"}*/
@@ -195,11 +195,11 @@ angular
 	   for(var j =0; j<pageList.length; j++){ // 기본설정값 지정
 		   //console.log(pageList[j])
 		
-		   	self.Setting[j] = {"pageSeq":j+1, "dataTime": Number(20), "switchNum": Number(1),  "pageNm":pageList[j].pageNm, "pageNmKr":pageList[j].pageNmKr,  "switcher" : true}
+		   	self.Setting[j] = {"pageSeq":j+1, "dataTime": Number(5), "switchNum": Number(1),  "pageNm":pageList[j].pageNm, "pageNmKr":pageList[j].pageNmKr,  "switcher" : true}
 		  //console.log(self.Setting[j])
 	   }
-	 	//self.Setting[0].dataTime= Number(30);
-	 	//self.Setting[1].dataTime= Number(30); 
+	 	self.Setting[0].dataTime= Number(20);
+	 	self.Setting[1].dataTime= Number(10); 
 	   if(localStorage.getItem('SettingTime')!=null){
 		   var SettingLS = JSON.parse(localStorage.getItem('SettingTime'));
 		   //console.log(self.Setting);
@@ -340,7 +340,7 @@ angular
        $location.url('/FmbLineD');
     }
    function btnFmbCountClickHandler() {
-       $location.url('/FmbCount');
+       $location.url('/FmbMon2');
     }
    function btnFmbTbmClickHandler() {
      $location.url('/FmbTbm');

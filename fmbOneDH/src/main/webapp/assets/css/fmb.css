@@ -277,10 +277,11 @@ form input.ng-ivnalid{
 	background-color: #2c3a49;
 }
 .dn {  
-	-webkit-animation: blink 2.5s linear infinite;
-	-moz-animation: blink 2.5s linear infinite;
-  	animation : blink 2.5s linear infinite;
+/* 	-webkit-animation: blink 2.5s linear infinite;
+	-moz-animation: blink 2.5s linear infinite; */
+  	animation : blink .1s linear infinite;
 } 
+.test
 @-webkit-keyframes blink {
      0% { background-color: cadetblue; }
       50% { background-color: #21374c; }

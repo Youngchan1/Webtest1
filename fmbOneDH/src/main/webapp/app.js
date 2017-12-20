@@ -133,6 +133,11 @@
 	            templateUrl: 'modules/fmb/views/fmbTotal.html',
 	            controllerAs: 'vm'
 	        })
+	        .when('/FmbMon2', {
+	            controller: 'FmbMon2Ctrl',
+	            templateUrl: 'modules/fmb/views/fmbMon2.html',
+	            controllerAs: 'vm'
+	        })
 
 	        /*.otherwise({ redirectTo: '/FmbLogin' })*/;
     }

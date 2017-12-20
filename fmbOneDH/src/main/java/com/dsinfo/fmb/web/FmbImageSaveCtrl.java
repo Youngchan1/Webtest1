@@ -61,7 +61,8 @@ public class FmbImageSaveCtrl {
         MBcfTransactionManager transaction = null;
         String sqlID = null;
         //개발용 로컬 경로
-        String path ="D://01_진행중인프로젝트/06.센트랄대합FMB/source/fmbOneDH/src/main/webapp/assets/img/system";
+        //String path ="D://01_진행중인프로젝트/06.센트랄대합FMB/source/fmbOneDH/src/main/webapp/assets/img/system";
+        String path ="D:/Documents/DSinfo/FMB/CTRDH/Webtest1/fmbOneDH/src/main/webapp/assets/img/system";
         
         //String path = "D://08310942/fmbOneDH/src/main/webapp/assets/img/system";//대합공장 프로젝트 저장위치
         String logicalPath = "assets/img/system/";

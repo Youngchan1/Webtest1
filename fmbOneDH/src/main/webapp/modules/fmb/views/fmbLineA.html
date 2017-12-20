@@ -17,7 +17,7 @@
 <!-- ngview 내부 페이지 -->
 <div test-ctrl class='bc-screen' style="margin:0">
 <!-- ngview 내부 header -->
-<bc-form-header logo='assets/img/system/logo.png' title="LINE별 생산실적  A동(UPH 기반)" is-mobile="isMobile" style="display:flex; align-items:center; flex-wrap: wrap;">
+<bc-form-header logo='assets/img/system/logo.png' title="LINE별 생산실적 A동(UPH 기반)" is-mobile="isMobile" style="display:flex; align-items:center; flex-wrap: wrap;">
 </bc-form-header>	
 
 
@@ -49,12 +49,11 @@
 				</div>
 			</div>
 		</div>
-		
 		<div layout="column" layout-wrap style="width:82%;">
 		<div  class="rowcustom" ng-repeat="line in vm.lineList track by $index" layout="row" ng-if ="$index%7==0" style="width:100%;">
 		<div grid-panel-ctrl data = "vm.lineList" flex ng-repeat="line in vm.lineList track by $index" ng-if="$index>=$parent.$index &&$index<($parent.$index+7)" is-mobile="isMobile" layout="column" layout-fill layout-wrap class="colorNested" style="text-align:center;">
 		  <div style="color:white;display:flex; align-items:center; justify-content: center;">
-		   	<div style="word-break:keep-all">{{line.lineNm}}</div>
+		   	<div style="word-break:keep-all; letter-spacing: -1px;" >{{line.lineNm}}</div>
 		  </div>
 		  <div  style="color:white;">
 		   {{line.goalCount|number:0}}
