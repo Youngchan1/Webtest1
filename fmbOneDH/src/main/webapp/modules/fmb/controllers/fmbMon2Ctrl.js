@@ -279,7 +279,7 @@ angular
 	    			for(var k=0; k<data.length;k++){
 	    				
 		    			if(self.eqptList[i].id == data[k].plcId){
-		    			
+		    				console.log("용")
 			    			self.eqptList[i].ccount =  data[k].ccount;
 			    			self.eqptList[i].stsImg1 = "assets/img/system/Yellow5.png"
 			    			self.eqptList[i].stsImg2 = "assets/img/system/White5.png"

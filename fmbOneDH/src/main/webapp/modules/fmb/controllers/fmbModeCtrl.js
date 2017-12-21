@@ -39,9 +39,10 @@ angular
 							self.rang;
 							self.check = false;
 							self.checkcb = function() {
-								 document.getElementById("myCheck").disabled = self.check;
-								 document.getElementById("myCheck1").disabled = self.check;
 								 self.rang = 43;
+								 /*$scope.crtEqpt.id = self.res[0];*/
+								 $scope.crtEqpt.id = self.res[0];
+								 
 							}
 							$scope.buttons = [ {
 								'name' : 'Yellow25',

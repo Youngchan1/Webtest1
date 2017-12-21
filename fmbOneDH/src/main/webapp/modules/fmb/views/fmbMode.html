@@ -281,7 +281,7 @@
             
             <md-input-container ng-switch-when="PLC">
            		 <label>PLC_ID</label>
-           		   	<md-select id="myCheck1" ng-model="crtEqpt.id">
+           		   	<md-select ng-model="crtEqpt.id">
      				<md-option ><em>None</em></md-option>
      				<md-option  ng-repeat="plc in vm.plcLst" value="{{plc}}">
        					{{plc}}
@@ -289,9 +289,9 @@
    				</md-select>
    				
    			</md-input-container>
-   			<md-input-container id="myCheck" style="height: 30px;" ng-switch-when="PLC">
+   			<md-input-container ng-show="!vm.check" id="myCheck" style="height: 30px;" ng-switch-when="PLC">
 				      <label>length</label>
-				      <input  style="height: 30px;" ng-model="vm.rang" type="number" step="1">{{vm.check}}
+				      <input  style="height: 30px;" ng-model="vm.rang"  type="number" step="1">{{vm.check}}
 				      </md-input-container>
 			</md-input-container>
 			<md-input-container style="height: 30px;" ng-switch-when="PLC">
